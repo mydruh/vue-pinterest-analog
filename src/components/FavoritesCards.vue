@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import axios from 'axios'
 import cfgObj from '../cfg/config.js'
 import { registerRuntimeHelpers } from '@vue/compiler-core'
@@ -25,8 +25,8 @@ export default({
   methods: {
     openPost(e){
       console.log(e.currentTarget.id)
-      //this.$router.push('/about?id='+e.currentTarget.id)
-      window.location.href = '/about?id=' + e.currentTarget.id
+      this.$router.push('/about?id='+e.currentTarget.id)
+      //window.location.href = '/about?id=' + e.currentTarget.id
     },
     searchPost(){
       const query = document.getElementById('searchInput').value

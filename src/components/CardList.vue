@@ -1,7 +1,8 @@
-<script lang="ts">
+<script>
 import axios from 'axios'
 import cfgObj from '../cfg/config.js'
 import { registerRuntimeHelpers } from '@vue/compiler-core'
+import { RouterLink } from 'vue-router'
 
 export default({
   data() {
@@ -17,7 +18,7 @@ export default({
       .then((response) => {
         this.rows = response.data
         this.rowsForSearch = response.data
-        window.arrtest = response.data
+        window.arrForSearch = response.data
         //alert('DATA')
         console.log(response.data)
       })
@@ -25,13 +26,35 @@ export default({
   methods: {
     openPost(e){
       console.log(e.currentTarget.id)
-      //this.$router.push('/about?id='+e.currentTarget.id)
-      window.location.href = '/about?id=' + e.currentTarget.id
+      this.$router.push('/about?id='+e.currentTarget.id)
+      //window.location.href = '/about?id=' + e.currentTarget.id
     },
     searchPost(){
       const query = document.getElementById('searchInput').value.toLowerCase();
-
-      this.rows = this.rowsForSearch.filter(result => result.user.name.toLowerCase().includes(query) || result.user.bio.toLowerCase().includes(query));
+      
+      if(query != ""){
+        axios
+        .get(cfgObj.url + '/search/photos?client_id=' + cfgObj.idClient + '&page=1&query=' + query)
+        .then((response) => {
+          this.rows = response.data.results
+          //alert('DATA')
+          console.log(response.data)
+        })
+      }else{
+        this.rows = this.rowsForSearch
+      }
+        // CLIENT SEARCH
+        // this.rows = window.arrForSearch.filter(function (element, index) { 
+        //   if(element.user.name != null && element.user.bio != null){
+        //     if(element.user.bio.toLowerCase().includes(query) || element.user.name.toLowerCase().includes(query)){
+        //       return element
+        //     }
+        //   }else if(element.user.bio != null){
+        //     if(result.user.bio.toLowerCase().includes(query)){
+        //       return element
+        //     }
+        //   }
+        // });
     }
   }
 })

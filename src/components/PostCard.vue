@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import axios from 'axios'
 import cfgObj from '../cfg/config.js'
 
